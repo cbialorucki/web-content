@@ -75,8 +75,12 @@ The ReactOS Team
 
 ## Statistics
 Resolved Jira issues: 375 (REMOVE ME: as of 7/1/2026)
+
 Commits: 2735 (REMOVE ME: as of 7/1/2026)
-Oldest Jira issue resolved: CORE-3804 from February 3rd, 2009 
+
+Oldest Jira issue resolved: [CORE-3804](https://jira.reactos.org/browse/CORE-3804) from February 3rd, 2009 
+
 -	[0.4.16 Resolved Issues](https://reactos.org/wiki/0.4.16_Resolved_Issues)
 -	[0.4.16 Commit History](https://reactos.org/wiki/0.4.16_Commit_History)
+
 The [releases/0.4.16](https://github.com/reactos/reactos/tree/releases/0.4.16) branch was forked from [master](https://github.com/reactos/reactos) on April 28th, 2026 after commit [bac97c5](https://github.com/reactos/reactos/commit/bac97c58e25262ccf53dfd7d0de4bed638b65491)
