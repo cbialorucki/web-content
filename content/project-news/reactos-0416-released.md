@@ -9,15 +9,41 @@ We are pleased to announce the release of ReactOS 0.4.16!
 After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer, a unified bootcd and livecd image, better driver support, networking and storage stack improvements, and third-party code syncs.
 
 ## Graphical Installer and the All-in-One Boot CD
-Historically, ReactOS offered two images for download, a livecd which let you test ReactOS in a read-only environment, and a bootcd which let you install ReactOS to your harddisk using a text-based installer.
-With ReactOS 0.4.16, we are introducing a new graphical installer and a combined bootcd and livecd.
+Historically, ReactOS offered two images for download, a livecd which let you test ReactOS in a read-only environment, and a bootcd which let you install ReactOS to your hard disk using a text-based installer.
+Thanks to the efforts of Hermès BÉLUSCA - MAÏTO ([hbelusca](https://github.com/hbelusca)), ReactOS 0.4.16 has a new graphical installer and a combined bootcd and livecd.
 Now you can test and install ReactOS using the same image.
+(insert a gallery of graphical installer here)
 
-## Driver Support
-During 0.4.16 development, core developer The_DarkFire_ recognized that the kernel was running out of system page table entries (PTEs) when loading third party drivers.
-This limitation was most apparent with graphics drivers, which allocate more memory than most other drivers.
-The_DarkFire_ changed the memory layout used by our memory manager to increase the amount of system PTEs.
-This fixed a hard-to-debug slowdown bug with Nvidia graphics drivers, increased the success rate of using AMD graphics drivers, and got Intel graphics drivers to load much further.
+## Video
+During 0.4.15 development, core developer Hervé Poussineau ([hpoussin](https://github.com/hpoussin)) put in the ground work for multi-monitor support and falling back to a VGA driver when display drivers fail to load.
+This foundation enabled us to continue pursuing better video driver compatibility in 0.4.16.
+For years ReactOS has been plagued by different issues with all major video driver vendors.
+
+Nvidia GPUs in particular had been plagued by a slow down issue that many talented contributors and developers investigated.
+Eventually Justin Miller ([The_DarkFire_](https://github.com/darkfire01)) recognized that the kernel was running out of system page table entries (PTEs) when loading third party drivers.
+This limitation was most apparent with graphics drivers, which allocate more memory than most other drivers. The_DarkFire_ changed the memory layout used by our memory manager to increase the amount of system PTEs.
+This fixed the hard-to-debug slowdown bug with Nvidia graphics drivers.
+On AMD video drivers, the OpenGL window would end up blank.
+This was resolved by rewriting ExtEscape inspired by a patch from the late core developer Jim Tabor ([jimtabor](https://github.com/jimtabor)).
+These improvements required an incredible amount of research and guidance from many of the contributors and developers.
+??? to improve stability, handle resource management of the new devices, and fix many edge case bugs in our win32k.
+(What fixed the third major driver vendor here?)
+
+## Audio
+For a couple of years, ReactOS had unstable and very incomplete High Definition (HD) audio controllers support, which is represented by HD audio bus driver (hdaudbus.sys), required and widely used by a lot of 3rd party HD audio codecs (AMD, IDT, NVIDIA, Realtek, SigmaTel etc).
+Its implementation written by Johannes Anderwald ([janderwald](https://github.com/janderwald)) in the far past, was mostly stubbed and non-working at all, causing blue screens each time when attempting to install any audio codec for an appropriate HD audio controller.
+But now, our core developer Oleg Dubinskiy ([oleg-dubinskiy](https://github.com/oleg-dubinskiy)) imported a new modern HD audio bus driver which was initially written for Windows 10, from the following repository: https://github.com/coolstar/sklhdaudbus (BSD-3-Clause license).
+And Justin Miller has imported a new functionality from (open source) Microsoft Kernel Mode Driver Framework (KMDF), which is used by that driver as well.
+This allows to properly support a lot of HD audio controllers which are compatible with (and have a codec driver for) Windows XP and Windows Server 2003.
+For example, Realtek High Definition (HD) audio codec R2.74 for Windows XP has been successfully tested and is confirmed to be working properly in ReactOS
+with Realtek ALC660 HD audio controller on Asus-F5R test notebook at least:
+https://private-user-images.githubusercontent.com/26385117/584169871-b6474c2c-160b-4eb8-992c-3608854c92f5.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODMwNjY1MjAsIm5iZiI6MTc4MzA2NjIyMCwicGF0aCI6Ii8yNjM4NTExNy81ODQxNjk4NzEtYjY0NzRjMmMtMTYwYi00ZWI4LTk5MmMtMzYwODg1NGM5MmY1Lm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA3MDMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNzAzVDA4MTAyMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWE0YTk1NzZjMzk4Njk5ODVjOGQwYjI5M2VlOTJhNDY5NWViMzhiNzQ2Mzc4MmJjZmY2MTFiZTM4OWFlZjNkODAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT12aWRlbyUyRm1wNCJ9.FlnzOhDvwcJ-_Td4pbK12ZEQugwYisVGQqA0guMNi8Y
+
+ReactOS 0.4.16 also introduces other audio improvements and fixes.
+In particular, Oleg also fixed improper volume control handling (audio volume level changing) from Control Panel -> Sound Properties (mmsys.cpl) and Audio Volume Mixer (sndvol32.exe).
+So now, the volume sliders are moving correctly, actually changing volume level and volume balance properly.
+For an HD audio codecs, the volume level set by user is also properly saved and restored upon OS reboot.
+Another fix he made, is fixing audio devices enumeration code, which allows to properly enumerate all audio devices and skip invalid/improperly detected ones, and hence fixes incorrectly detected audio input/output and non-working sound with some audio cards.
 
 ## Networking
 ReactOS 0.4.16 introduces asynchronous connection support.
@@ -26,15 +52,15 @@ This also improves application compatibility as many programs assume that these 
 
 ## Storage
 Since 2009, ReactOS has been using the UniATA storage driver to add SATA, AHCI, and support for partitions greater than 8GB.
-This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices; leading to the dreaded INACCESSIBLE_BOOT_DEVICE (0x7B) bug check.
-ReactOS 0.4.16 introduces a new ATA driver developed by contributor disean.
+This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices; leading to the dreaded `INACCESSIBLE_BOOT_DEVICE` (`0x7B`) bug check.
+ReactOS 0.4.16 introduces a new ATA driver developed by contributor Dmitry Borisov ([disean](https://github.com/disean)).
 This new ATA driver allows ReactOS to boot in far more environments, including inside Hyper-V.
 
 In 2021 we imported and enabled the open-source Microsoft FastFAT driver.
 Unfortunately, this broke our ability to repair FAT partitions using chkdsk.
-Core developer Doug Lyons fixed our FAT chkdsk routines to work with the Microsoft FastFAT driver.
+Core developer Doug Lyons ([Doug-Lyons](https://github.com/Doug-Lyons)) fixed our FAT chkdsk routines to work with the Microsoft FastFAT driver.
 
-Core developer Mark Jansen added a disk cleanup utility in ReactOS 0.4.16.
+Core developer Mark Jansen ([learn-more](https://github.com/learn-more)) added a disk cleanup utility in ReactOS 0.4.16.
 The disk cleanup utility is compatible with extensions for the Windows disk cleanup utility, allowing third party programs to clean up disk usage as well as the operating system.
 
 ## Third-Party Code Syncs
@@ -52,7 +78,7 @@ If you’d like to experiment with Windows Vista and newer application support, 
 Instructions on how to build ReactOS are available [here](https://reactos.org/wiki/Building_ReactOS).
 
 For the first time, ReactOS release images will include WineVDM, which increases compatibility with 16-bit Windows applications.
-WineVDM is a project by otya128, available [here]( https://github.com/otya128/winevdm).
+WineVDM is a project by [otya128](https://github.com/otya128), available [here](https://github.com/otya128/winevdm).
 
 ## Final Thoughts
 The mission for ReactOS is to “[Run] your favorite Windows applications and drivers in an open-source environment you can trust.”
