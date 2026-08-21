@@ -12,7 +12,9 @@ After a year and a half of development, we’re excited to showcase the improvem
 Historically, ReactOS offered two images for download, a livecd which let you test ReactOS in a read-only environment, and a bootcd which let you install ReactOS to your hard disk using a text-based installer.
 Thanks to the efforts of Hermès BÉLUSCA - MAÏTO ([hbelusca](https://github.com/hbelusca)), ReactOS 0.4.16 has a new graphical installer and a combined bootcd and livecd.
 Now you can test and install ReactOS using the same image.
+
 (insert a gallery of graphical installer here)
+
 You can read about Hermès's work on this in his blog posts:
 - [Part 1 - September 2023: Partly Wine-syncing setupapi](https://reactos.org/blogs/gui-setup-part1-setupapi/)
 - [Part 2 - October-November 2023: Making partitioning UI work](https://reactos.org/blogs/gui-setup-part2-partitioning/)
@@ -42,8 +44,8 @@ Core developer Oleg Dubinskiy ([oleg-dubinskiy](https://github.com/oleg-dubinski
 
 HD audio controllers which are compatible with Windows XP and Windows Server 2003 should now work in ReactOS 0.4.16.
 Here is a video showing a Realtek HD audio controller working on ReactOS 0.4.16:
-**REPLACE ME WITH AN IMAGE LINK AND UPLOAD VIDEO TO YOUTUBE**
-[video](https://private-user-images.githubusercontent.com/26385117/584169871-b6474c2c-160b-4eb8-992c-3608854c92f5.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODMwNjY1MjAsIm5iZiI6MTc4MzA2NjIyMCwicGF0aCI6Ii8yNjM4NTExNy81ODQxNjk4NzEtYjY0NzRjMmMtMTYwYi00ZWI4LTk5MmMtMzYwODg1NGM5MmY1Lm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA3MDMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNzAzVDA4MTAyMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWE0YTk1NzZjMzk4Njk5ODVjOGQwYjI5M2VlOTJhNDY5NWViMzhiNzQ2Mzc4MmJjZmY2MTFiZTM4OWFlZjNkODAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT12aWRlbyUyRm1wNCJ9.FlnzOhDvwcJ-_Td4pbK12ZEQugwYisVGQqA0guMNi8Y)
+
+{{< video src="/img/project-news/reactos-0416-released/hdaudbus.mp4" type="video/mp4" caption="Setting up the installation, and file copy hang">}}
 
 The new HD audio bus driver depends on the Kernel Mode Driver Framework (KMDF).
 Microsoft open sourced KMDF as part of the [Windows-Driver-Frameworks](https://github.com/microsoft/Windows-Driver-Frameworks) repository.
