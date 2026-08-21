@@ -21,33 +21,37 @@ For years ReactOS has been plagued by different issues with all major video driv
 
 Nvidia GPUs in particular had been plagued by a slow down issue that many talented contributors and developers investigated.
 Eventually Justin Miller ([The_DarkFire_](https://github.com/darkfire01)) recognized that the kernel was running out of system page table entries (PTEs) when loading third party drivers.
-This limitation was most apparent with graphics drivers, which allocate more memory than most other drivers. The_DarkFire_ changed the memory layout used by our memory manager to increase the amount of system PTEs.
+This limitation was most apparent with graphics drivers, which allocate more memory than most other drivers.
+The_DarkFire_ changed the memory layout used by our memory manager to increase the amount of system PTEs.
 This fixed the hard-to-debug slowdown bug with Nvidia graphics drivers.
 On AMD video drivers, the OpenGL window would end up blank.
-This was resolved by rewriting ExtEscape inspired by a patch from the late core developer Jim Tabor ([jimtabor](https://github.com/jimtabor)).
-These improvements required an incredible amount of research and guidance from many of the contributors and developers.
-??? to improve stability, handle resource management of the new devices, and fix many edge case bugs in our win32k.
-(What fixed the third major driver vendor here?)
+This was resolved by rewriting ExtEscape, inspired by a patch from the late core developer Jim Tabor ([jimtabor](https://github.com/jimtabor)).
+These improvements improved stability, better handled resource management of the new devices, and fixed many edge case bugs in our win32k.
+We thank our contributors and developers for their time as these fixes needed an incredible amount of research.
 
 ## Audio
-For a couple of years, ReactOS had unstable and very incomplete High Definition (HD) audio controllers support, which is represented by HD audio bus driver (hdaudbus.sys), required and widely used by a lot of 3rd party HD audio codecs (AMD, IDT, NVIDIA, Realtek, SigmaTel etc).
-Its implementation written by Johannes Anderwald ([janderwald](https://github.com/janderwald)) in the far past, was mostly stubbed and non-working at all, causing blue screens each time when attempting to install any audio codec for an appropriate HD audio controller.
-But now, our core developer Oleg Dubinskiy ([oleg-dubinskiy](https://github.com/oleg-dubinskiy)) imported a new modern HD audio bus driver which was initially written for Windows 10, from the following repository: https://github.com/coolstar/sklhdaudbus (BSD-3-Clause license).
-And Justin Miller has imported a new functionality from (open source) Microsoft Kernel Mode Driver Framework (KMDF), which is used by that driver as well.
-This allows to properly support a lot of HD audio controllers which are compatible with (and have a codec driver for) Windows XP and Windows Server 2003.
-For example, Realtek High Definition (HD) audio codec R2.74 for Windows XP has been successfully tested and is confirmed to be working properly in ReactOS
-with Realtek ALC660 HD audio controller on Asus-F5R test notebook at least:
+For years ReactOS had unstable and incomplete HD audio support.
+HD audio drivers depend on a bus driver (`hdaudbus.sys`), including drivers from AMD, IDT, NVIDIA, Realtek, and SigmaTel.
+Our initial implementation was written long ago by Johannes Anderwald ([janderwald](https://github.com/janderwald)).
+This implementation was never finished, and was a frequent source of bug checks when attempting to install audio codecs with an HD audio controller.
+Core developer Oleg Dubinskiy ([oleg-dubinskiy](https://github.com/oleg-dubinskiy)) imported [sklhdaudbus](https://github.com/coolstar/sklhdaudbus), a new HD audio bus driver, to replace our old implementation.
+
+HD audio controllers which are compatible with Windows XP and Windows Server 2003 should now work in ReactOS 0.4.16.
+Here is a video showing a Realtek HD audio controller working on ReactOS 0.4.16:
+(replace me with an image link and upload video to youtube)
 https://private-user-images.githubusercontent.com/26385117/584169871-b6474c2c-160b-4eb8-992c-3608854c92f5.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODMwNjY1MjAsIm5iZiI6MTc4MzA2NjIyMCwicGF0aCI6Ii8yNjM4NTExNy81ODQxNjk4NzEtYjY0NzRjMmMtMTYwYi00ZWI4LTk5MmMtMzYwODg1NGM5MmY1Lm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA3MDMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNzAzVDA4MTAyMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWE0YTk1NzZjMzk4Njk5ODVjOGQwYjI5M2VlOTJhNDY5NWViMzhiNzQ2Mzc4MmJjZmY2MTFiZTM4OWFlZjNkODAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT12aWRlbyUyRm1wNCJ9.FlnzOhDvwcJ-_Td4pbK12ZEQugwYisVGQqA0guMNi8Y
 
-ReactOS 0.4.16 also introduces other audio improvements and fixes.
-In particular, Oleg also fixed improper volume control handling (audio volume level changing) from Control Panel -> Sound Properties (mmsys.cpl) and Audio Volume Mixer (sndvol32.exe).
-So now, the volume sliders are moving correctly, actually changing volume level and volume balance properly.
-For an HD audio codecs, the volume level set by user is also properly saved and restored upon OS reboot.
-Another fix he made, is fixing audio devices enumeration code, which allows to properly enumerate all audio devices and skip invalid/improperly detected ones, and hence fixes incorrectly detected audio input/output and non-working sound with some audio cards.
+The new HD audio bus driver depends on the Kernel Mode Driver Framework (KMDF).
+Microsoft open sourced KMDF as part of the [Windows-Driver-Frameworks](https://github.com/microsoft/Windows-Driver-Frameworks) repository.
+The_DarkFire_ imported KMDF for the new HD audio bus driver, and now we can use KMDF to import or develop other drivers.
+
+Oleg also fixed the volume and balance sliders in Sound Properties (`mmsys.cpl`) and Audio Volume Mixer (`sndvol32.exe`).
+Now the volume and balance levels are saved and restored on reboot when using an HD audio codec.
+In addition, Oleg updated the audio device enumeration code to support more sound cards.
 
 ## Networking
-ReactOS 0.4.16 introduces asynchronous connection support.
-This greatly improves networking performance by allowing applications to execute networking operations without stalling.
+ReactOS 0.4.16 also adds asynchronous connection support.
+This improves networking performance by allowing applications to execute networking operations without stalling.
 This also improves application compatibility as many programs assume that these asynchronous connection APIs are always present.
 
 ## Storage
