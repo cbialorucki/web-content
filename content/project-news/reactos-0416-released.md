@@ -4,6 +4,7 @@ author:      "ReactOS Team"
 # 2026-08-28
 date:        2026-07-02
 tags:        [ "release" ]
+banner:      "img/project-news/reactos-0416-released/banner.png"
 ---
 
 We are pleased to announce the release of ReactOS 0.4.16!
