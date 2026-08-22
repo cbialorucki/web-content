@@ -1,19 +1,26 @@
 ---
 title:       "Introducing ReactOS 0.4.16"
 author:      "ReactOS Team"
+# 2026-08-28
 date:        2026-07-02
 tags:        [ "release" ]
 ---
 
 We are pleased to announce the release of ReactOS 0.4.16!
-After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer, a unified bootcd and livecd image, better driver support, networking and storage stack improvements, and third-party code syncs.
+After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer; a unified bootcd and livecd image; video, audio, networking, and storage stack improvements; a new install type; and third-party code syncs.
 
 ## Graphical Installer and the All-in-One Boot CD
 Historically, ReactOS offered two images for download, a livecd which let you test ReactOS in a read-only environment, and a bootcd which let you install ReactOS to your hard disk using a text-based installer.
 Thanks to the efforts of Hermès BÉLUSCA - MAÏTO ([hbelusca](https://github.com/hbelusca)), ReactOS 0.4.16 has a new graphical installer and a combined bootcd and livecd.
 Now you can test and install ReactOS using the same image.
 
-(insert a gallery of graphical installer here)
+{{< gallery >}}
+{{< figure link="/img/project-news/reactos-0416-released/gui-setup-1.png" src="/img/project-news/reactos-0416-released/gui-setup-1.png" caption="Graphical installer">}}
+{{< figure link="/img/project-news/reactos-0416-released/gui-setup-2.png" src="/img/project-news/reactos-0416-released/gui-setup-2.png" caption="Install or update ReactOS">}}
+{{< figure link="/img/project-news/reactos-0416-released/gui-setup-3.png" src="/img/project-news/reactos-0416-released/gui-setup-3.png" caption="Basic partition management">}}
+{{< figure link="/img/project-news/reactos-0416-released/gui-setup-4.png" src="/img/project-news/reactos-0416-released/gui-setup-4.png" caption="Copying files">}}
+{{< figure link="/img/project-news/reactos-0416-released/gui-setup-5.png" src="/img/project-news/reactos-0416-released/gui-setup-5.png" caption="Graphical setup complete">}}
+{{< /gallery >}}
 
 You can read about Hermès's work on this in his blog posts:
 - [Part 1 - September 2023: Partly Wine-syncing setupapi](https://reactos.org/blogs/gui-setup-part1-setupapi/)
@@ -72,6 +79,26 @@ Core developer Doug Lyons ([Doug-Lyons](https://github.com/Doug-Lyons)) fixed ou
 
 Core developer Mark Jansen ([learn-more](https://github.com/learn-more)) added a disk cleanup utility in ReactOS 0.4.16.
 The disk cleanup utility is compatible with extensions for the Windows disk cleanup utility, allowing third party programs to clean up disk usage as well as the operating system.
+
+{{< gallery >}}
+{{< figure link="/img/project-news/reactos-0416-released/chkdsk.png" src="/img/project-news/reactos-0416-released/chkdsk.png" caption="Check disk">}}
+{{< figure link="/img/project-news/reactos-0416-released/cleanmgr.png" src="/img/project-news/reactos-0416-released/cleanmgr.png" caption="Disk cleanup">}}
+{{< /gallery >}}
+
+## ReactOS Server Core
+ReactOS supports Workstation and Server install types.
+In a Workstation install, more fancy graphical options are enabled by default compared to a Server install.
+In addition, user folders on Workstation installs currently live inside the "My Documents" folder; although Windows Vista and newer moved these folders out of the "Documents" folder for both Server and Workstation installs.
+
+Interested in seeing ReactOS being more widely used in server and embedded environments, core developer Carl Bialorucki ([cbialorucki](https://github.com/cbialorucki)) added the Server Core installation type.
+This install type disables the graphical explorer shell, but otherwise loads the full Win32 subsystem.
+ReactOS Server Core works similarly to Windows Server Core which was introduced with Windows Server 2008.
+
+{{< gallery >}}
+{{< figure link="/img/project-news/reactos-0416-released/server-core-1.png" src="/img/project-news/reactos-0416-released/server-core-1.png" caption="Server Core install option">}}
+{{< figure link="/img/project-news/reactos-0416-released/server-core-2.png" src="/img/project-news/reactos-0416-released/server-core-2.png" caption="Booting into Server Core">}}
+{{< figure link="/img/project-news/reactos-0416-released/server-core-3.png" src="/img/project-news/reactos-0416-released/server-core-3.png" caption="Running programs in Server Core">}}
+{{< /gallery >}}
 
 ## Third-Party Code Syncs
 ReactOS utilizes several other open-source projects as part of its code base.
