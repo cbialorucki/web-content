@@ -8,11 +8,11 @@ banner:      "img/project-news/reactos-0416-released/banner.png"
 ---
 
 We are pleased to announce the release of ReactOS 0.4.16!
-After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer; a unified bootcd and livecd image; video, audio, networking, and storage stack improvements; a new install type; and third-party code syncs.
+After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer; a unified bootcd and livecd image; video, audio, networking, and storage stack improvements; a new installation type; and third-party code syncs.
 
 ## Graphical Installer and the All-in-One Boot CD
 Historically, ReactOS offered two images for download, a livecd which let you test ReactOS in a read-only environment, and a bootcd which let you install ReactOS to your hard disk using a text-based installer.
-Thanks to the efforts of Hermès BÉLUSCA - MAÏTO ([hbelusca](https://github.com/hbelusca)), ReactOS 0.4.16 has a new graphical installer and a combined bootcd and livecd.
+Thanks to the efforts of Hermès Bélusca-Maïto ([hbelusca](https://github.com/hbelusca)), ReactOS 0.4.16 has a new graphical installer and a combined bootcd and livecd.
 Now you can test and install ReactOS using the same image.
 
 {{< gallery >}}
@@ -39,15 +39,15 @@ This limitation was most apparent with graphics drivers, which allocate more mem
 The_DarkFire_ changed the memory layout used by our memory manager to increase the amount of system PTEs.
 This fixed the hard-to-debug slowdown bug with Nvidia graphics drivers.
 On AMD video drivers, the OpenGL window would end up blank.
-This was resolved by rewriting ExtEscape, inspired by a patch from the late core developer Jim Tabor ([jimtabor](https://github.com/jimtabor)).
-These improvements improved stability, better handled resource management of the new devices, and fixed many edge case bugs in our win32k.
+This was resolved by rewriting `ExtEscape`, inspired by a patch from the late core developer James Tabor ([jimtabor](https://github.com/jimtabor)).
+These improvements enhanced stability, better handled resource management of the new devices, and fixed many edge case bugs in our `win32k`.
 We thank our contributors and developers for their time as these fixes needed an incredible amount of research.
 
 ## Audio
-For years ReactOS had unstable and incomplete HD audio support.
-HD audio drivers depend on a bus driver (`hdaudbus.sys`), including drivers from AMD, IDT, NVIDIA, Realtek, and SigmaTel.
+For years ReactOS had unstable and incomplete High Definition (HD) audio support.
+HD audio drivers depend on a bus driver (`hdaudbus.sys`), including drivers from AMD, IDT, Nvidia, Realtek, and SigmaTel.
 Our initial implementation was written long ago by Johannes Anderwald ([janderwald](https://github.com/janderwald)).
-This implementation was never finished, and was a frequent source of bug checks when attempting to install audio codecs with an HD audio controller.
+This implementation was never finished, and was a frequent source of bugchecks when attempting to install audio codecs with an HD audio controller.
 Core developer Oleg Dubinskiy ([oleg-dubinskiy](https://github.com/oleg-dubinskiy)) imported [sklhdaudbus](https://github.com/coolstar/sklhdaudbus), a new HD audio bus driver, to replace our old implementation.
 
 HD audio controllers which are compatible with Windows XP and Windows Server 2003 should now work in ReactOS 0.4.16.
@@ -70,7 +70,7 @@ This also improves application compatibility as many programs assume that these 
 
 ## Storage
 Since 2009, ReactOS has been using the UniATA storage driver to add SATA, AHCI, and support for partitions greater than 8GB.
-This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices; leading to the dreaded `INACCESSIBLE_BOOT_DEVICE` (`0x7B`) bug check.
+This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices; leading to the dreaded `INACCESSIBLE_BOOT_DEVICE` (`0x7B`) bugcheck.
 ReactOS 0.4.16 introduces a new ATA driver developed by contributor Dmitry Borisov ([disean](https://github.com/disean)).
 This new ATA driver allows ReactOS to boot in far more environments, including inside Hyper-V.
 
@@ -87,7 +87,7 @@ The disk cleanup utility is compatible with extensions for the Windows disk clea
 {{< /gallery >}}
 
 ## ReactOS Server Core
-ReactOS supports Workstation and Server install types.
+ReactOS supports Workstation and Server installation types.
 In a Workstation install, more fancy graphical options are enabled by default compared to a Server install.
 In addition, user folders on Workstation installs currently live inside the "My Documents" folder; although Windows Vista and newer moved these folders out of the "Documents" folder for both Server and Workstation installs.
 
@@ -103,7 +103,7 @@ ReactOS Server Core works similarly to Windows Server Core which was introduced 
 
 ## Third-Party Code Syncs
 ReactOS utilizes several other open-source projects as part of its code base.
-One of the largest open-source projects we leverage is Wine, a re-implementation of several Windows APIs for Unix-like operating systems.
+One of the largest open-source projects we leverage is [Wine](https://gitlab.winehq.org/wine/wine), a re-implementation of several Windows APIs for Unix-like operating systems.
 ReactOS uses a fork of Wine that interfaces directly with a Windows-like kernel instead of translating calls to a Unix-like one.
 
 For many years, ReactOS was limited to Wine 2.x and 3.x due to compatibility concerns adopting APIs newer than those available to Windows Server 2003.
@@ -127,7 +127,7 @@ We extend our deepest gratitude to our community, contributors and donors.
 Without our contributors, we wouldn’t be able to make any development progress.
 Without our donors, we couldn’t fund our testing and hosting infrastructure or development contracts to accelerate progress.
 And without our community, no one would know we exist.
-Thank you for making ReactOS possible.
+Thank you for making ReactOS possible!
 
 If you are interested in joining our community, contributing, or donating to the ReactOS project, check out our homepage to find our donation page, social media links, and our GitHub.
 
