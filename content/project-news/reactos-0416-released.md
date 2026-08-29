@@ -67,7 +67,7 @@ On top of that, Oleg improved binary compatibility with the Windows audio stack 
 
 ## Storage
 Since 2009, ReactOS has been using the UniATA storage driver to add SATA, AHCI, and support for partitions greater than 8GB.
-This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices; leading to the dreaded `INACCESSIBLE_BOOT_DEVICE` (`0x7B`) bugcheck.
+This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices, leading to the dreaded `INACCESSIBLE_BOOT_DEVICE` (`0x7B`) bugcheck.
 ReactOS 0.4.16 introduces a new ATA driver developed by contributor Dmitry Borisov ([disean](https://github.com/disean)).
 This new ATA driver allows ReactOS to boot in far more environments, including inside Hyper-V Generation 1.
 
@@ -86,7 +86,7 @@ The disk cleanup utility is compatible with extensions for the Windows disk clea
 ## Networking
 During ReactOS 0.4.15 development, Dmitry introduced a new DC21X4 network adapter driver for better hardware compatibility.
 This driver is used on devices with DECchip 21x4-based network adapters, and virtualized environments such as Microsoft Virtual PC 2007 and Hyper-V Generation 1.
-Now ReactOS 0.4.16 can boot and access the internet on Hyper-V Generation 1.
+Now ReactOS 0.4.16 can boot and access the Internet on both.
 
 ReactOS 0.4.16 also adds asynchronous connection support.
 This improves networking performance by allowing applications to execute networking operations without stalling.
@@ -95,7 +95,7 @@ This also improves application compatibility as many programs assume that these 
 ## ReactOS Server Core
 ReactOS supports Workstation and Server installation types.
 In a Workstation install, more fancy graphical options are enabled by default compared to a Server install.
-In addition, user folders on Workstation installs currently live inside the "My Documents" folder; although Windows Vista and newer moved these folders out of the "Documents" folder for both Server and Workstation installs.
+In addition, user folders on Workstation installs currently live inside the "My Documents" folder, although Windows Vista and newer moved these folders out of the "Documents" folder for both Server and Workstation installs.
 
 Interested in seeing ReactOS being more widely used in server and embedded environments, core developer Carl Bialorucki ([cbialorucki](https://github.com/cbialorucki)) added the Server Core installation type.
 This install type disables the graphical explorer shell, but otherwise loads the full Win32 subsystem.
