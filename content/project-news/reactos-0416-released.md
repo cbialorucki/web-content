@@ -1,8 +1,7 @@
 ---
 title:       "Introducing ReactOS 0.4.16"
 author:      "ReactOS Team"
-# 2026-08-28
-date:        2026-07-02
+date:        2026-08-29
 tags:        [ "release" ]
 banner:      "img/project-news/reactos-0416-released/banner.png"
 ---
@@ -31,20 +30,20 @@ You can read about Hermès's work on this in his blog posts:
 ## Video
 During 0.4.15 development, core developer Hervé Poussineau ([hpoussin](https://github.com/hpoussin)) put in the ground work for multi-monitor support and falling back to a VGA driver when display drivers fail to load.
 This foundation enabled us to continue pursuing better video driver compatibility in 0.4.16.
-For years ReactOS has been plagued by different issues with all major video driver vendors.
 
+For years ReactOS has been plagued by different issues with all major video driver vendors.
 Nvidia GPUs in particular had been plagued by a slow down issue that many talented contributors and developers investigated.
-Eventually Justin Miller ([The_DarkFire_](https://github.com/darkfire01)) recognized that the kernel was running out of system page table entries (PTEs) when loading third party drivers.
+Eventually, Justin Miller ([The_DarkFire_](https://github.com/darkfire01)) recognized that the kernel was running out of system page table entries (PTEs) when loading third party drivers.
 This limitation was most apparent with graphics drivers, which allocate more memory than most other drivers.
-The_DarkFire_ changed the memory layout used by our memory manager to increase the amount of system PTEs.
+Justin changed the memory layout used by our memory manager to increase the amount of system PTEs.
 This fixed the hard-to-debug slowdown bug with Nvidia graphics drivers.
 On AMD video drivers, the OpenGL window would end up blank.
 This was resolved by rewriting `ExtEscape`, inspired by a patch from the late core developer James Tabor ([jimtabor](https://github.com/jimtabor)).
-These improvements enhanced stability, better handled resource management of the new devices, and fixed many edge case bugs in our `win32k`.
+These improvements enhanced stability, better handled resource management of the new devices, and fixed many edge case bugs in our `win32k.sys` driver.
 We thank our contributors and developers for their time as these fixes needed an incredible amount of research.
 
 ## Audio
-For years ReactOS had unstable and incomplete High Definition (HD) audio support.
+Prior to 0.4.16, ReactOS had incomplete High Definition (HD) audio support.
 HD audio drivers depend on a bus driver (`hdaudbus.sys`), including drivers from AMD, IDT, Nvidia, Realtek, and SigmaTel.
 Our initial implementation was written long ago by Johannes Anderwald ([janderwald](https://github.com/janderwald)).
 This implementation was never finished, and was a frequent source of bugchecks when attempting to install audio codecs with an HD audio controller.
@@ -57,22 +56,18 @@ Here is a video showing a Realtek HD audio controller working on ReactOS 0.4.16:
 
 The new HD audio bus driver depends on the Kernel Mode Driver Framework (KMDF).
 Microsoft open sourced KMDF as part of the [Windows-Driver-Frameworks](https://github.com/microsoft/Windows-Driver-Frameworks) repository.
-The_DarkFire_ imported KMDF for the new HD audio bus driver, and now we can use KMDF to import or develop other drivers.
+Justin imported KMDF for the new HD audio bus driver, and now we can use KMDF to import or develop other drivers.
 
 Oleg also fixed the volume and balance sliders in Sound Properties (`mmsys.cpl`) and Audio Volume Mixer (`sndvol32.exe`).
 Now the volume and balance levels are saved and restored on reboot when using an HD audio codec.
 In addition, Oleg updated the audio device enumeration code to support more sound cards.
-
-## Networking
-ReactOS 0.4.16 also adds asynchronous connection support.
-This improves networking performance by allowing applications to execute networking operations without stalling.
-This also improves application compatibility as many programs assume that these asynchronous connection APIs are always present.
+On top of that, Oleg improved binary compatibility with the Windows audio stack thanks to some fixes he contributed to our Plug and Play (PnP) stack and SetupAPI.
 
 ## Storage
 Since 2009, ReactOS has been using the UniATA storage driver to add SATA, AHCI, and support for partitions greater than 8GB.
 This was a huge help to ReactOS then, but today UniATA is responsible for slow boot times and failing to load on many devices; leading to the dreaded `INACCESSIBLE_BOOT_DEVICE` (`0x7B`) bugcheck.
 ReactOS 0.4.16 introduces a new ATA driver developed by contributor Dmitry Borisov ([disean](https://github.com/disean)).
-This new ATA driver allows ReactOS to boot in far more environments, including inside Hyper-V.
+This new ATA driver allows ReactOS to boot in far more environments, including inside Hyper-V Generation 1.
 
 In 2021 we imported and enabled the open-source Microsoft FastFAT driver.
 Unfortunately, this broke our ability to repair FAT partitions using chkdsk.
@@ -85,6 +80,15 @@ The disk cleanup utility is compatible with extensions for the Windows disk clea
 {{< figure link="/img/project-news/reactos-0416-released/chkdsk.png" src="/img/project-news/reactos-0416-released/chkdsk.png" caption="Check disk">}}
 {{< figure link="/img/project-news/reactos-0416-released/cleanmgr.png" src="/img/project-news/reactos-0416-released/cleanmgr.png" caption="Disk cleanup">}}
 {{< /gallery >}}
+
+## Networking
+During ReactOS 0.4.15 development, Dmitry introduced a new DC21X4 network adapter driver for better hardware compatibility.
+This driver is used on devices with DECchip 21x4-based network adapters, and virtualized environments such as Microsoft Virtual PC 2007 and Hyper-V Generation 1.
+Now ReactOS 0.4.16 can boot and access the internet on Hyper-V Generation 1.
+
+ReactOS 0.4.16 also adds asynchronous connection support.
+This improves networking performance by allowing applications to execute networking operations without stalling.
+This also improves application compatibility as many programs assume that these asynchronous connection APIs are always present.
 
 ## ReactOS Server Core
 ReactOS supports Workstation and Server installation types.
@@ -138,9 +142,9 @@ The ReactOS Team
 [Download ReactOS 0.4.16](https://reactos.org/download/)
 
 ## Statistics
-Resolved Jira issues: 375 (REMOVE ME: as of 7/1/2026)
+Resolved Jira issues: 381
 
-Commits: 2735 (REMOVE ME: as of 7/1/2026)
+Commits: 2808
 
 Oldest Jira issue resolved: [CORE-3804](https://jira.reactos.org/browse/CORE-3804) from February 3rd, 2009 
 
