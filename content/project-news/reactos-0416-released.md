@@ -7,7 +7,9 @@ banner:      "img/project-news/reactos-0416-released/banner.png"
 ---
 
 We are pleased to announce the release of ReactOS 0.4.16!
-After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer; a unified bootcd and livecd image; video, audio, networking, and storage stack improvements; a new installation type; and third-party code syncs.<!--more-->
+After a year and a half of development, we’re excited to showcase the improvements we’ve made between a new graphical installer; a unified bootcd and livecd image; video, audio, networking, and storage stack improvements; a new installation type; and third-party code syncs.
+
+<!--more-->
 
 ## Graphical Installer and the All-in-One Boot CD
 Historically, ReactOS offered two images for download, a livecd which let you test ReactOS in a read-only environment, and a bootcd which let you install ReactOS to your hard disk using a text-based installer.
