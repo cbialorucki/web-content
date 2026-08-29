@@ -48,7 +48,7 @@ We thank our contributors and developers for their time as these fixes needed an
 Prior to 0.4.16, ReactOS had incomplete High Definition (HD) audio support.
 HD audio drivers depend on a bus driver (`hdaudbus.sys`), including drivers from AMD, IDT, Nvidia, Realtek, and SigmaTel.
 Our initial implementation was written long ago by Johannes Anderwald ([janderwald](https://github.com/janderwald)).
-This implementation was never finished, and was a frequent source of bugchecks when attempting to install audio codecs with an HD audio controller.
+This implementation was never finished, and was a frequent source of bugchecks when attempting to install HD audio controller drivers.
 Core developer Oleg Dubinskiy ([oleg-dubinskiy](https://github.com/oleg-dubinskiy)) imported [sklhdaudbus](https://github.com/coolstar/sklhdaudbus), a new HD audio bus driver, to replace our old implementation.
 
 HD audio controllers which are compatible with Windows XP and Windows Server 2003 should now work in ReactOS 0.4.16.
